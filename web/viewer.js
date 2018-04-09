@@ -1997,7 +1997,7 @@ var validateFileURL = void 0;
       return;
     }
     try {
-      var viewerOrigin = new URL(window.location.href).origin || 'null';
+      var viewerOrigin = 'null';
       if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
         return;
       }
@@ -2110,7 +2110,7 @@ var webViewerOpenFileViaURL = void 0;
       PDFViewerApplication.setTitleUsingUrl(file);
       var xhr = new XMLHttpRequest();
       xhr.onload = function () {
-        PDFViewerApplication.open(new Uint8Array(xhr.response));
+        PDFViewerApplication.open(new Uint8Array(xhr.response), {withCredentials:true}););
       };
       try {
         xhr.open('GET', file);
@@ -2122,7 +2122,7 @@ var webViewerOpenFileViaURL = void 0;
       return;
     }
     if (file) {
-      PDFViewerApplication.open(file);
+      PDFViewerApplication.open(file, {withCredentials:true});
     }
   };
 }
@@ -2248,12 +2248,12 @@ var webViewerFileInputChange = void 0;
   webViewerFileInputChange = function webViewerFileInputChange(evt) {
     var file = evt.fileInput.files[0];
     if (URL.createObjectURL && !_app_options.AppOptions.get('disableCreateObjectURL')) {
-      PDFViewerApplication.open(URL.createObjectURL(file));
+      PDFViewerApplication.open(URL.createObjectURL(file), {withCredentials:true}););
     } else {
       var fileReader = new FileReader();
       fileReader.onload = function webViewerChangeFileReaderOnload(evt) {
         var buffer = evt.target.result;
-        PDFViewerApplication.open(new Uint8Array(buffer));
+        PDFViewerApplication.open(new Uint8Array(buffer), {withCredentials:true}););
       };
       fileReader.readAsArrayBuffer(file);
     }
