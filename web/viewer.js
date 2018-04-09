@@ -2110,7 +2110,7 @@ var webViewerOpenFileViaURL = void 0;
       PDFViewerApplication.setTitleUsingUrl(file);
       var xhr = new XMLHttpRequest();
       xhr.onload = function () {
-        PDFViewerApplication.open(new Uint8Array(xhr.response), {withCredentials:true}););
+        PDFViewerApplication.open(new Uint8Array(xhr.response), {withCredentials:true});
       };
       try {
         xhr.open('GET', file);
@@ -2248,12 +2248,12 @@ var webViewerFileInputChange = void 0;
   webViewerFileInputChange = function webViewerFileInputChange(evt) {
     var file = evt.fileInput.files[0];
     if (URL.createObjectURL && !_app_options.AppOptions.get('disableCreateObjectURL')) {
-      PDFViewerApplication.open(URL.createObjectURL(file), {withCredentials:true}););
+      PDFViewerApplication.open(URL.createObjectURL(file), {withCredentials:true});
     } else {
       var fileReader = new FileReader();
       fileReader.onload = function webViewerChangeFileReaderOnload(evt) {
         var buffer = evt.target.result;
-        PDFViewerApplication.open(new Uint8Array(buffer), {withCredentials:true}););
+        PDFViewerApplication.open(new Uint8Array(buffer), {withCredentials:true});
       };
       fileReader.readAsArrayBuffer(file);
     }
