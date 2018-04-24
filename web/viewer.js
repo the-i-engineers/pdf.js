@@ -9839,7 +9839,7 @@ function getDefaultPreferences() {
       "useOnlyCssZoom": false,
       "externalLinkTarget": 0,
       "renderer": "canvas",
-      "renderInteractiveForms": false,
+      "renderInteractiveForms": true,
       "enablePrintAutoRotate": false,
       "disablePageMode": false,
       "disablePageLabels": false
