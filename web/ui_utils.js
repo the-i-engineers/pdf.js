@@ -711,7 +711,7 @@ class EventBus {
 
   dispatch(eventName) {
     let eventListeners = this._listeners[eventName];
-    if (!eventListeners || eventListeners.length === 0) {
+    if (!Array || !eventListeners || eventListeners.length === 0) {
       return;
     }
     // Passing all arguments after the eventName to the listeners.

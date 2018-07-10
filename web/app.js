@@ -1184,11 +1184,13 @@ let PDFViewerApplication = {
       this.contentDispositionFilename = contentDispositionFilename;
 
       // Provides some basic debug information
+      /* don't care, we are not debugging
       console.log('PDF ' + pdfDocument.fingerprint + ' [' +
                   info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
                   ' / ' + (info.Creator || '-').trim() + ']' +
                   ' (PDF.js: ' + (version || '-') +
                   (AppOptions.get('enableWebGL') ? ' [WebGL]' : '') + ')');
+                  */
 
       let pdfTitle;
       if (metadata && metadata.has('dc:title')) {
