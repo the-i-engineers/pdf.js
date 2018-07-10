@@ -696,6 +696,10 @@ let PDFViewerApplication = {
    *                      is opened.
    */
   open(file, args) {
+    // allow xorigin
+    args = args || {};
+    args.withCredentials = true;
+
     if (this.pdfLoadingTask) {
       // We need to destroy already opened document.
       return this.close().then(() => {
@@ -1528,7 +1532,7 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
       return;
     }
     try {
-      let viewerOrigin = new URL(window.location.href).origin || 'null';
+      let viewerOrigin = 'null';
       if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
         // Hosted or local viewer, allow for any file locations
         return;
