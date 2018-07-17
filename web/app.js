@@ -696,6 +696,10 @@ let PDFViewerApplication = {
    *                      is opened.
    */
   open(file, args) {
+    // allow xorigin
+    args = args || {};
+    args.withCredentials = true;
+
     if (this.pdfLoadingTask) {
       // We need to destroy already opened document.
       return this.close().then(() => {
@@ -1180,11 +1184,13 @@ let PDFViewerApplication = {
       this.contentDispositionFilename = contentDispositionFilename;
 
       // Provides some basic debug information
+      /* don't care, we are not debugging
       console.log('PDF ' + pdfDocument.fingerprint + ' [' +
                   info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
                   ' / ' + (info.Creator || '-').trim() + ']' +
                   ' (PDF.js: ' + (version || '-') +
                   (AppOptions.get('enableWebGL') ? ' [WebGL]' : '') + ')');
+                  */
 
       let pdfTitle;
       if (metadata && metadata.has('dc:title')) {
@@ -1528,7 +1534,7 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
       return;
     }
     try {
-      let viewerOrigin = new URL(window.location.href).origin || 'null';
+      let viewerOrigin = 'null';
       if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
         // Hosted or local viewer, allow for any file locations
         return;

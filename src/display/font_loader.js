@@ -13,10 +13,7 @@
  * limitations under the License.
  */
 
-import {
-  assert, bytesToString, isEvalSupported, shadow, string32,
-  UNSUPPORTED_FEATURES, warn
-} from '../shared/util';
+import {assert, bytesToString, isEvalSupported, shadow, string32, UNSUPPORTED_FEATURES, warn} from '../shared/util';
 
 function FontLoader(docId) {
   this.docId = docId;
@@ -342,6 +339,10 @@ var FontFaceObject = (function FontFaceObjectClosure() {
                                             ignoreErrors = false,
                                             onUnsupportedFeature = null,
                                             fontRegistry = null, }) {
+    if (!Object) {
+      return;
+    }
+
     this.compiledGlyphs = Object.create(null);
     // importing translated data
     for (var i in translatedData) {
