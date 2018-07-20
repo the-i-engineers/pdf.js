@@ -79,6 +79,10 @@ function MessageHandler(sourceName, targetName, comObj) {
   let ah = this.actionHandler = Object.create(null);
 
   this._onComObjOnMessage = (event) => {
+    if (!Promise) {
+      return;
+    }
+
     let data = event.data;
     if (data.targetName !== this.sourceName) {
       return;

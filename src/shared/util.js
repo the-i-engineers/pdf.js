@@ -968,6 +968,9 @@ function isSpace(ch) {
  * - a Promise, resolve and reject methods.
  */
 function createPromiseCapability() {
+  if (!Promise) {
+    return {};
+  }
   var capability = {};
   capability.promise = new Promise(function (resolve, reject) {
     capability.resolve = resolve;

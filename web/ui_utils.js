@@ -110,7 +110,6 @@ function scrollIntoView(element, spot, skipOverflowHiddenElements = false) {
   // producing the error. See also animationStarted.
   let parent = element.offsetParent;
   if (!parent) {
-    console.error('offsetParent is not set -- cannot scroll');
     return;
   }
   let offsetY = element.offsetTop + element.clientTop;
@@ -354,6 +353,9 @@ function backtrackBeforeAllVisibleElements(index, views, top) {
   // (case 1, 2, or 4), which means finding a page that is above the current
   // page's top. If the found page is partially visible, we're definitely not in
   // case 3, and this assumption is correct.
+  if (!views[index]) {
+    return 0;
+  }
   let elt = views[index].div;
   let pageTop = elt.offsetTop + elt.clientTop;
 
@@ -711,7 +713,7 @@ class EventBus {
 
   dispatch(eventName) {
     let eventListeners = this._listeners[eventName];
-    if (!eventListeners || eventListeners.length === 0) {
+    if (!Array || !eventListeners || eventListeners.length === 0) {
       return;
     }
     // Passing all arguments after the eventName to the listeners.

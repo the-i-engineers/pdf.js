@@ -1,6 +1,6 @@
 {
-  "name": "pdf.js",
-  "version": "2.0.0",
+  "name": "tie-pdf.js",
+  "version": "0.0.2",
   "devDependencies": {
     "acorn": "^5.7.1",
     "autoprefixer": "^8.6.4",
@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mozilla/pdf.js.git"
+    "url": "git://github.com/the-i-engineers/pdf.js.git"
   },
   "license": "Apache-2.0"
 }

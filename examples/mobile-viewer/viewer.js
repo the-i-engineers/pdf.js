@@ -162,10 +162,12 @@ var PDFViewerApplication = {
       self.metadata = metadata;
 
       // Provides some basic debug information
+      /* don't care, we are not debugging
       console.log('PDF ' + pdfDocument.fingerprint + ' [' +
                   info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
                   ' / ' + (info.Creator || '-').trim() + ']' +
                   ' (PDF.js: ' + (pdfjsLib.version || '-') + ')');
+                  */
 
       var pdfTitle;
       if (metadata && metadata.has('dc:title')) {
