@@ -435,7 +435,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       // the transformation must already be set in canvasCtx._transformMatrix.
       addContextCurrentTransform(canvasCtx);
     }
-    this.cachedGetSinglePixelWidth = null;
+    this._cachedGetSinglePixelWidth = null;
   }
 
   function putBinaryImageData(ctx, imgData) {
@@ -726,7 +726,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
 
   CanvasGraphics.prototype = {
 
-    beginDrawing({ transform, viewport, transparency,
+    beginDrawing({ transform, viewport, transparency = false,
                    background = null, }) {
       // For pdfs that use blend modes we have to clear the canvas else certain
       // blend modes can look wrong since we'd be blending with a white
@@ -810,7 +810,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
 
             // If the promise isn't resolved yet, add the continueCallback
             // to the promise and bail out.
-            if (!objsPool.isResolved(depObjId)) {
+            if (!objsPool.has(depObjId)) {
               objsPool.get(depObjId, continueCallback);
               return i;
             }
@@ -1068,13 +1068,13 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
         // Ensure that the clipping path is reset (fixes issue6413.pdf).
         this.pendingClip = null;
 
-        this.cachedGetSinglePixelWidth = null;
+        this._cachedGetSinglePixelWidth = null;
       }
     },
     transform: function CanvasGraphics_transform(a, b, c, d, e, f) {
       this.ctx.transform(a, b, c, d, e, f);
 
-      this.cachedGetSinglePixelWidth = null;
+      this._cachedGetSinglePixelWidth = null;
     },
 
     // Path
@@ -1484,7 +1484,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
           TextRenderingMode.FILL_STROKE_MASK;
         if (fillStrokeMode === TextRenderingMode.STROKE ||
             fillStrokeMode === TextRenderingMode.FILL_STROKE) {
-          this.cachedGetSinglePixelWidth = null;
+          this._cachedGetSinglePixelWidth = null;
           lineWidth = this.getSinglePixelWidth() * MIN_WIDTH_FACTOR;
         }
       } else {
@@ -1597,7 +1597,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       if (isTextInvisible || fontSize === 0) {
         return;
       }
-      this.cachedGetSinglePixelWidth = null;
+      this._cachedGetSinglePixelWidth = null;
 
       ctx.save();
       ctx.transform.apply(ctx, current.textMatrix);
@@ -1750,7 +1750,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
 
       this.baseTransform = this.ctx.mozCurrentTransform;
 
-      if (Array.isArray(bbox) && bbox.length === 4) {
+      if (bbox) {
         var width = bbox[2] - bbox[0];
         var height = bbox[3] - bbox[1];
         this.ctx.rect(bbox[0], bbox[1], width, height);
@@ -2249,21 +2249,15 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       }
       ctx.beginPath();
     },
-    getSinglePixelWidth: function CanvasGraphics_getSinglePixelWidth(scale) {
-      if (this.cachedGetSinglePixelWidth === null) {
-        // NOTE: The `save` and `restore` commands used below is a workaround
-        // that is necessary in order to prevent `mozCurrentTransformInverse`
-        // from intermittently returning incorrect values in Firefox, see:
-        // https://github.com/mozilla/pdf.js/issues/7188.
-        this.ctx.save();
-        var inverse = this.ctx.mozCurrentTransformInverse;
-        this.ctx.restore();
+    getSinglePixelWidth(scale) {
+      if (this._cachedGetSinglePixelWidth === null) {
+        const inverse = this.ctx.mozCurrentTransformInverse;
         // max of the current horizontal and vertical scale
-        this.cachedGetSinglePixelWidth = Math.sqrt(Math.max(
+        this._cachedGetSinglePixelWidth = Math.sqrt(Math.max(
           (inverse[0] * inverse[0] + inverse[1] * inverse[1]),
           (inverse[2] * inverse[2] + inverse[3] * inverse[3])));
       }
-      return this.cachedGetSinglePixelWidth;
+      return this._cachedGetSinglePixelWidth;
     },
     getCanvasPosition: function CanvasGraphics_getCanvasPosition(x, y) {
       var transform = this.ctx.mozCurrentTransform;

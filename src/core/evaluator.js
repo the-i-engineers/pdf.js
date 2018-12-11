@@ -16,8 +16,8 @@
 import {
   AbortException, assert, CMapCompressionType, createPromiseCapability,
   FONT_IDENTITY_MATRIX, FormatError, getLookupTableFactory, IDENTITY_MATRIX,
-  info, isNum, isString, NativeImageDecoding, OPS, TextRenderingMode,
-  UNSUPPORTED_FEATURES, Util, warn
+  info, isNum, isString, NativeImageDecoding, OPS, stringToPDFString,
+  TextRenderingMode, UNSUPPORTED_FEATURES, Util, warn
 } from '../shared/util';
 import { CMapFactory, IdentityCMap } from './cmap';
 import { DecodeStream, Stream } from './stream';
@@ -131,20 +131,17 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
     this.options = options || DefaultPartialEvaluatorOptions;
     this.pdfFunctionFactory = pdfFunctionFactory;
 
-    this.fetchBuiltInCMap = (name) => {
-      var cachedCMap = this.builtInCMapCache[name];
-      if (cachedCMap) {
-        return Promise.resolve(cachedCMap);
+    this.fetchBuiltInCMap = async (name) => {
+      if (this.builtInCMapCache.has(name)) {
+        return this.builtInCMapCache.get(name);
       }
-      return this.handler.sendWithPromise('FetchBuiltInCMap', {
-        name,
-      }).then((data) => {
-        if (data.compressionType !== CMapCompressionType.NONE) {
-          // Given the size of uncompressed CMaps, only cache compressed ones.
-          this.builtInCMapCache[name] = data;
-        }
-        return data;
-      });
+      const data = await this.handler.sendWithPromise('FetchBuiltInCMap',
+                                                      { name, });
+      if (data.compressionType !== CMapCompressionType.NONE) {
+        // Given the size of uncompressed CMaps, only cache compressed ones.
+        this.builtInCMapCache.set(name, data);
+      }
+      return data;
     };
   }
 
@@ -302,6 +299,11 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
       var dict = xobj.dict;
       var matrix = dict.getArray('Matrix');
       var bbox = dict.getArray('BBox');
+      if (Array.isArray(bbox) && bbox.length === 4) {
+        bbox = Util.normalizeRect(bbox);
+      } else {
+        bbox = null;
+      }
       var group = dict.get('Group');
       if (group) {
         var groupOptions = {
@@ -1872,8 +1874,8 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
         var cidSystemInfo = dict.get('CIDSystemInfo');
         if (isDict(cidSystemInfo)) {
           properties.cidSystemInfo = {
-            registry: cidSystemInfo.get('Registry'),
-            ordering: cidSystemInfo.get('Ordering'),
+            registry: stringToPDFString(cidSystemInfo.get('Registry')),
+            ordering: stringToPDFString(cidSystemInfo.get('Ordering')),
             supplement: cidSystemInfo.get('Supplement'),
           };
         }
@@ -2005,18 +2007,18 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
           switch (glyphName[0]) {
             case 'G': // Gxx glyph
               if (glyphName.length === 3) {
-                code = parseInt(glyphName.substr(1), 16);
+                code = parseInt(glyphName.substring(1), 16);
               }
               break;
             case 'g': // g00xx glyph
               if (glyphName.length === 5) {
-                code = parseInt(glyphName.substr(1), 16);
+                code = parseInt(glyphName.substring(1), 16);
               }
               break;
             case 'C': // Cddd glyph
             case 'c': // cddd glyph
               if (glyphName.length >= 3) {
-                code = +glyphName.substr(1);
+                code = +glyphName.substring(1);
               }
               break;
             default:

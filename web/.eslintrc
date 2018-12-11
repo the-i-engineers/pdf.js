@@ -1,15 +1,11 @@
 {
   "extends": [
-    ../.eslintrc
+    "../.eslintrc"
   ],
 
   "rules": {
-    // Variables
-    "no-restricted-globals": ["error",
-      "ReadableStream",
-      "URL",
-      "WritableStream",
-    ],
+    // Plugins
+    "import/no-unresolved": ["error", { "ignore": ["pdfjs-lib"]}],
 
     // ECMAScript 6
     "no-var": "error",

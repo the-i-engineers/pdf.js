@@ -14,9 +14,8 @@
  */
 
 import {
-  isValidRotation, parseQueryString, waitOnEventOrTimeout
+  getGlobalEventBus, isValidRotation, parseQueryString, waitOnEventOrTimeout
 } from './ui_utils';
-import { getGlobalEventBus } from './dom_events';
 
 // Heuristic value used when force-resetting `this._blockHashChange`.
 const HASH_CHANGE_TIMEOUT = 1000; // milliseconds
@@ -164,7 +163,7 @@ class PDFHistory {
       return;
     }
     if ((namedDest && typeof namedDest !== 'string') ||
-        !(explicitDest instanceof Array) ||
+        !Array.isArray(explicitDest) ||
         !(Number.isInteger(pageNumber) &&
           pageNumber > 0 && pageNumber <= this.linkService.pagesCount)) {
       console.error('PDFHistory.push: Invalid parameters.');
@@ -330,8 +329,8 @@ class PDFHistory {
     }
 
     let forceReplace = false;
-    if (this._destination.page === position.first ||
-        this._destination.page === position.page) {
+    if (this._destination.page >= position.first &&
+        this._destination.page <= position.page) {
       // When the `page` of `this._destination` is still visible, do not
       // update the browsing history when `this._destination` either:
       //  - contains an internal destination, since in this case we
@@ -567,7 +566,7 @@ function isDestArraysEqual(firstDest, secondDest) {
     if (typeof first !== typeof second) {
       return false;
     }
-    if (first instanceof Array || second instanceof Array) {
+    if (Array.isArray(first) || Array.isArray(second)) {
       return false;
     }
     if (first !== null && typeof first === 'object' && second !== null) {
@@ -584,7 +583,7 @@ function isDestArraysEqual(firstDest, secondDest) {
     return first === second || (Number.isNaN(first) && Number.isNaN(second));
   }
 
-  if (!(firstDest instanceof Array && secondDest instanceof Array)) {
+  if (!(Array.isArray(firstDest) && Array.isArray(secondDest))) {
     return false;
   }
   if (firstDest.length !== secondDest.length) {

@@ -58,12 +58,20 @@ const defaultOptions = {
     value: false,
     kind: OptionKind.VIEWER,
   },
+  /**
+   * The `disablePreferences` is, conditionally, defined below.
+   */
   enablePrintAutoRotate: {
     /** @type {boolean} */
     value: false,
     kind: OptionKind.VIEWER,
   },
   enableWebGL: {
+    /** @type {boolean} */
+    value: false,
+    kind: OptionKind.VIEWER,
+  },
+  eventBusDispatchToDOM: {
     /** @type {boolean} */
     value: false,
     kind: OptionKind.VIEWER,
@@ -213,6 +221,11 @@ const defaultOptions = {
 };
 if (typeof PDFJSDev === 'undefined' ||
     PDFJSDev.test('!PRODUCTION || GENERIC')) {
+  defaultOptions.disablePreferences = {
+    /** @type {boolean} */
+    value: false,
+    kind: OptionKind.VIEWER,
+  };
   defaultOptions.locale = {
     /** @type {string} */
     value: (typeof navigator !== 'undefined' ? navigator.language : 'en-US'),

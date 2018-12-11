@@ -26,13 +26,25 @@ import { Stream } from './stream';
 
 class AnnotationFactory {
   /**
+   * Create an `Annotation` object of the correct type for the given reference
+   * to an annotation dictionary. This yields a promise that is resolved when
+   * the `Annotation` object is constructed.
+   *
    * @param {XRef} xref
    * @param {Object} ref
    * @param {PDFManager} pdfManager
    * @param {Object} idFactory
-   * @returns {Annotation}
+   * @return {Promise} A promise that is resolved with an {Annotation} instance.
    */
   static create(xref, ref, pdfManager, idFactory) {
+    return pdfManager.ensure(this, '_create',
+                             [xref, ref, pdfManager, idFactory]);
+  }
+
+  /**
+   * @private
+   */
+  static _create(xref, ref, pdfManager, idFactory) {
     let dict = xref.fetchIfRef(ref);
     if (!isDict(dict)) {
       return;
@@ -93,6 +105,9 @@ class AnnotationFactory {
 
       case 'Polygon':
         return new PolygonAnnotation(parameters);
+
+      case 'Ink':
+        return new InkAnnotation(parameters);
 
       case 'Highlight':
         return new HighlightAnnotation(parameters);
@@ -742,7 +757,7 @@ class ButtonWidgetAnnotation extends WidgetAnnotation {
     this.data.pushButton = this.hasFieldFlag(AnnotationFieldFlag.PUSHBUTTON);
 
     if (this.data.checkBox) {
-      this._processCheckBox();
+      this._processCheckBox(params);
     } else if (this.data.radioButton) {
       this._processRadioButton(params);
     } else if (this.data.pushButton) {
@@ -752,11 +767,29 @@ class ButtonWidgetAnnotation extends WidgetAnnotation {
     }
   }
 
-  _processCheckBox() {
-    if (!isName(this.data.fieldValue)) {
+  _processCheckBox(params) {
+    if (isName(this.data.fieldValue)) {
+      this.data.fieldValue = this.data.fieldValue.name;
+    }
+
+    const customAppearance = params.dict.get('AP');
+    if (!isDict(customAppearance)) {
       return;
     }
-    this.data.fieldValue = this.data.fieldValue.name;
+
+    const exportValueOptionsDict = customAppearance.get('D');
+    if (!isDict(exportValueOptionsDict)) {
+      return;
+    }
+
+    const exportValues = exportValueOptionsDict.getKeys();
+    const hasCorrectOptionCount = exportValues.length === 2;
+    if (!hasCorrectOptionCount) {
+      return;
+    }
+
+    this.data.exportValue = exportValues[0] === 'Off' ?
+      exportValues[1] : exportValues[0];
   }
 
   _processRadioButton(params) {
@@ -980,6 +1013,34 @@ class PolygonAnnotation extends PolylineAnnotation {
     super(parameters);
 
     this.data.annotationType = AnnotationType.POLYGON;
+  }
+}
+
+class InkAnnotation extends Annotation {
+  constructor(parameters) {
+    super(parameters);
+
+    this.data.annotationType = AnnotationType.INK;
+
+    let dict = parameters.dict;
+    const xref = parameters.xref;
+
+    let originalInkLists = dict.getArray('InkList');
+    this.data.inkLists = [];
+    for (let i = 0, ii = originalInkLists.length; i < ii; ++i) {
+      // The raw ink lists array contains arrays of numbers representing
+      // the alternating horizontal and vertical coordinates, respectively,
+      // of each vertex. Convert this to an array of objects with x and y
+      // coordinates.
+      this.data.inkLists.push([]);
+      for (let j = 0, jj = originalInkLists[i].length; j < jj; j += 2) {
+        this.data.inkLists[i].push({
+          x: xref.fetchIfRef(originalInkLists[i][j]),
+          y: xref.fetchIfRef(originalInkLists[i][j + 1]),
+        });
+      }
+    }
+    this._preparePopup(dict);
   }
 }
 

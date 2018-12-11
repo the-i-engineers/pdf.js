@@ -92,6 +92,8 @@ exports.InvalidPDFException = pdfjsSharedUtil.InvalidPDFException;
 exports.MissingPDFException = pdfjsSharedUtil.MissingPDFException;
 exports.SVGGraphics = pdfjsDisplaySVG.SVGGraphics;
 exports.NativeImageDecoding = pdfjsSharedUtil.NativeImageDecoding;
+exports.CMapCompressionType = pdfjsSharedUtil.CMapCompressionType;
+exports.PermissionFlag = pdfjsSharedUtil.PermissionFlag;
 exports.UnexpectedResponseException =
   pdfjsSharedUtil.UnexpectedResponseException;
 exports.OPS = pdfjsSharedUtil.OPS;
@@ -101,7 +103,6 @@ exports.createValidAbsoluteUrl = pdfjsSharedUtil.createValidAbsoluteUrl;
 exports.createObjectURL = pdfjsSharedUtil.createObjectURL;
 exports.removeNullCharacters = pdfjsSharedUtil.removeNullCharacters;
 exports.shadow = pdfjsSharedUtil.shadow;
-exports.createBlob = pdfjsSharedUtil.createBlob;
 exports.Util = pdfjsSharedUtil.Util;
 exports.ReadableStream = pdfjsSharedUtil.ReadableStream;
 exports.URL = pdfjsSharedUtil.URL;
