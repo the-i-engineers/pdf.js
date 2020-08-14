@@ -111,7 +111,7 @@ const defaultOptions = {
   },
   printResolution: {
     /** @type {number} */
-    value: 150,
+    value: 600,
     kind: OptionKind.VIEWER,
   },
   renderer: {

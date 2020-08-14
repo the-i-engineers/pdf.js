@@ -48,7 +48,7 @@ function wrapReason(reason) {
   ) {
     assert(
       reason instanceof Error ||
-        (typeof reason === "object" && reason !== null),
+      (typeof reason === "object" && reason !== null),
       'wrapReason: Expected "reason" to be a (possibly cloned) Error.'
     );
   } else {
@@ -83,6 +83,9 @@ class MessageHandler {
     this.callbackCapabilities = Object.create(null);
     this.actionHandler = Object.create(null);
 
+    if (!Promise) {
+      return;
+    }
     this._onComObjOnMessage = event => {
       const data = event.data;
       if (data.targetName !== this.sourceName) {
@@ -442,7 +445,7 @@ class MessageHandler {
         }
         // Reset desiredSize property of sink on every pull.
         this.streamSinks[streamId].desiredSize = data.desiredSize;
-        const { onPull } = this.streamSinks[data.streamId];
+        const {onPull} = this.streamSinks[data.streamId];
         new Promise(function (resolve) {
           resolve(onPull && onPull());
         }).then(
@@ -512,7 +515,7 @@ class MessageHandler {
         if (!this.streamSinks[streamId]) {
           break;
         }
-        const { onCancel } = this.streamSinks[data.streamId];
+        const {onCancel} = this.streamSinks[data.streamId];
         new Promise(function (resolve) {
           resolve(onCancel && onCancel(wrapReason(data.reason)));
         }).then(
@@ -583,4 +586,4 @@ class MessageHandler {
   }
 }
 
-export { MessageHandler };
+export {MessageHandler};

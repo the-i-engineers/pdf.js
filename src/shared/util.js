@@ -865,6 +865,10 @@ function createPromiseCapability() {
   const capability = Object.create(null);
   let isSettled = false;
 
+  if (!Promise) {
+    return capability;
+  }
+
   Object.defineProperty(capability, "settled", {
     get() {
       return isSettled;
