@@ -1008,6 +1008,9 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
             break;
           case "BM":
             this.ctx.globalCompositeOperation = value;
+            if (this.ctx.globalCompositeOperation !== value) {
+              this.ctx.globalAlpha = 0.5;
+            }
             break;
           case "SMask":
             if (this.current.activeSMask) {

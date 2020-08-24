@@ -37,6 +37,12 @@
 * [IE-4298](https://jira.tie.ch/browse/IE-4298): in [app.js](./web/app.js)
   * replace `const viewerOrigin = new URL(window.location.href).origin || "null";` with `const viewerOrigin = "null";`
   * replace `PDFViewerApplication.open(file);` with `PDFViewerApplication.open(file, { withCredentials: true });`
+* [KIS-1280](https://jira.tie.ch/browse/KIS-1280): in [canvas.js](./src/display/canvas.js) `after this.ctx.globalCompositeOperation = value;` add 
+  ```
+  if (this.ctx.globalCompositeOperation !== value) {
+    this.ctx.globalAlpha = 0.5;
+  }
+  ```
 * [KIS-1567](https://jira.tie.ch/browse/KIS-1567): 
   * in [pdf_sidebar.js](./web/pdf_sidebar.js) setInitialView set forceOpen to false `this._switchView(view, /* forceOpen */ false)`
   * add `/* TIE Styles */` section at the end of [viewer.css](./web/viewer.css)
