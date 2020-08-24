@@ -200,7 +200,7 @@ const PDFViewerApplication = {
           ")"
       );
 
-      let pdfTitle;
+      var pdfTitle;
       if (metadata && metadata.has("dc:title")) {
         const title = metadata.get("dc:title");
         // Ghostscript sometimes returns 'Untitled', so prevent setting the

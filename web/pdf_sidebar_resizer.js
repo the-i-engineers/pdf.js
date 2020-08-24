@@ -42,6 +42,18 @@ class PDFSidebarResizer {
     this.outerContainer = options.outerContainer;
     this.resizer = options.resizer;
     this.eventBus = eventBus;
+    this.l10n = l10n;
+
+    if (
+      (typeof PDFJSDev === "undefined" || !PDFJSDev.test("MOZCENTRAL")) &&
+      (typeof CSS === "undefined" ||
+        typeof CSS.supports !== "function" ||
+        !CSS.supports(SIDEBAR_WIDTH_VAR, `calc(-1 * ${SIDEBAR_MIN_WIDTH}px)`))
+    ) {
+      return;
+    }
+    this.enabled = true;
+    this.resizer.classList.remove("hidden"); // Show the resizer DOM element.
 
     l10n.getDirection().then(dir => {
       this.isRTL = dir === "rtl";

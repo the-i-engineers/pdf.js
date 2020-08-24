@@ -113,7 +113,6 @@ function scrollIntoView(element, spot, scrollMatches = false) {
   // producing the error. See also animationStarted.
   let parent = element.offsetParent;
   if (!parent) {
-    console.error("offsetParent is not set -- cannot scroll");
     return;
   }
   let offsetY = element.offsetTop + element.clientTop;
