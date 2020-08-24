@@ -1891,3 +1891,87 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
     display: none;
   }
 }
+
+/* TIE Styles */
+.toolbarButton.presentationMode,
+.secondaryToolbarButton.presentationMode,
+.toolbarButton.openFile,
+.secondaryToolbarButton.openFile,
+.toolbarButton.download,
+.secondaryToolbarButton.download,
+.toolbarButton.bookmark,
+.secondaryToolbarButton.bookmark,
+.splitToolbarButtonSeparator,
+.splitToolbarButton:hover > .splitToolbarButtonSeparator,
+.splitToolbarButton.toggled > .splitToolbarButtonSeparator,
+.verticalToolbarSeparator {
+  display: none !important;
+}
+
+body {
+  background-color: #E8EBF1;
+  background-image: none;
+}
+
+.pdfViewer .page {
+  border: none;
+  box-shadow: 0 25.6px 57.6px rgba(49, 50, 62, 0.22), 0 4.8px 14.4px rgba(49, 50, 62, 0.18);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#toolbarSidebar,
+#sidebarContent,
+#toolbarContainer,
+#loadingBar,
+.findbar,
+.secondaryToolbar,
+.dropdownToolbarButton > select > option,
+.splitToolbarButton:hover,
+.splitToolbarButton:hover > .toolbarButton,
+.splitToolbarButton.toggled > .toolbarButton {
+  background-color: #8990A2;
+  border-color: #8990A2;
+  background-image: none;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.toolbarField,
+.dropdownToolbarButton {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  background: none;
+}
+
+#sidebarContainer {
+  border-color: #707789;
+}
+
+.dropdownToolbarButton:hover,
+.dropdownToolbarButton:hover:active,
+.overlayButton:hover,
+.overlayButton:focus,
+.overlayButton:hover:active,
+.toolbarButton.toggled,
+.toolbarButton:hover:enabled,
+.toolbarButton:focus:enabled,
+.toolbarButton:hover:active,
+.splitToolbarButton.toggled > .toolbarButton.toggled,
+.splitToolbarButton > .toolbarButton:hover:enabled,
+.splitToolbarButton > .toolbarButton:focus:enabled,
+.secondaryToolbarButton:hover,
+.secondaryToolbarButton:focus,
+.secondaryToolbarButton:hover:active,
+.secondaryToolbarButton.toggled,
+.toolbarField:hover,
+.toolbarField:focus {
+  background-color: #707789;
+  border-color: #707789;
+  background-image: none;
+  box-shadow: none;
+}
+
+.splitToolbarButton:hover .toolbarButton {
+  border-color: transparent;
+}

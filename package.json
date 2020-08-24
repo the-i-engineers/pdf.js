@@ -1,6 +1,6 @@
 {
-  "name": "pdf.js",
-  "version": "2.0.0",
+  "name": "tie-pdf.js",
+  "version": "v2.4.456+tie.1",
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",

@@ -162,7 +162,7 @@ class PDFSidebar {
     }
     // Prevent dispatching two back-to-back `sidebarviewchanged` events,
     // since `this._switchView` dispatched the event if the view changed.
-    if (!this._switchView(view, /* forceOpen */ true)) {
+    if (!this._switchView(view, /* forceOpen */ false)) {
       this._dispatchEvent();
     }
   }

@@ -183,22 +183,6 @@ var PDFViewerApplication = {
       self.documentInfo = info;
       self.metadata = metadata;
 
-      // Provides some basic debug information
-      console.log(
-        "PDF " +
-          pdfDocument.fingerprint +
-          " [" +
-          info.PDFFormatVersion +
-          " " +
-          (info.Producer || "-").trim() +
-          " / " +
-          (info.Creator || "-").trim() +
-          "]" +
-          " (PDF.js: " +
-          (pdfjsLib.version || "-") +
-          ")"
-      );
-
       var pdfTitle;
       if (metadata && metadata.has("dc:title")) {
         var title = metadata.get("dc:title");
