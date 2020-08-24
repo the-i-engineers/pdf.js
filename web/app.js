@@ -1282,23 +1282,6 @@ const PDFViewerApplication = {
         this.metadata = metadata;
         this.contentDispositionFilename = contentDispositionFilename;
 
-        // Provides some basic debug information
-        console.log(
-          "PDF " +
-            pdfDocument.fingerprint +
-            " [" +
-            info.PDFFormatVersion +
-            " " +
-            (info.Producer || "-").trim() +
-            " / " +
-            (info.Creator || "-").trim() +
-            "]" +
-            " (PDF.js: " +
-            (version || "-") +
-            (AppOptions.get("enableWebGL") ? " [WebGL]" : "") +
-            ")"
-        );
-
         let pdfTitle;
 
         const infoTitle = info && info["Title"];
@@ -1756,7 +1739,7 @@ if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
       return;
     }
     try {
-      const viewerOrigin = new URL(window.location.href).origin || "null";
+      const viewerOrigin = "null";
       if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
         // Hosted or local viewer, allow for any file locations
         return;
@@ -1944,7 +1927,7 @@ if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
     }
 
     if (file) {
-      PDFViewerApplication.open(file);
+      PDFViewerApplication.open(file, { withCredentials: true });
     }
   };
 } else if (PDFJSDev.test("MOZCENTRAL || CHROME")) {
