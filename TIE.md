@@ -5,7 +5,7 @@
 * rebase master to the latest release-tag of upstream (e.g. `git rebase v2.4.456`)
 * resolve merge-conflicts
 * force push master `git push -f origin master`
-* change version in [package.json](package.json) to `<upstream version>+tie.<tie version>` (e.g. `v2.4.456+tie.1`)
+* change name in [package.json](package.json) to `tie-pdf.js` and version to `<upstream version>+tie.<tie version>` (e.g. `v2.4.456+tie.1`)
 * commit and push change
 
 # Make new changes
