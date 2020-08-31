@@ -1,5 +1,5 @@
 {
-  "name": "pdf.js",
+  "name": "tie-pdf.js",
   "version": "v2.4.456+tie.1",
   "devDependencies": {
     "@babel/core": "^7.8.7",
