@@ -1908,11 +1908,6 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
   display: none !important;
 }
 
-body {
-  background-color: #E8EBF1;
-  background-image: none;
-}
-
 .pdfViewer .page {
   border: none;
   box-shadow: 0 25.6px 57.6px rgba(49, 50, 62, 0.22), 0 4.8px 14.4px rgba(49, 50, 62, 0.18);
@@ -1920,58 +1915,89 @@ body {
   margin-bottom: 10px;
 }
 
-#toolbarSidebar,
-#sidebarContent,
-#toolbarContainer,
-#loadingBar,
-.findbar,
-.secondaryToolbar,
-.dropdownToolbarButton > select > option,
-.splitToolbarButton:hover,
-.splitToolbarButton:hover > .toolbarButton,
-.splitToolbarButton.toggled > .toolbarButton {
-  background-color: #8990A2;
-  border-color: #8990A2;
-  background-image: none;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-}
-
-.toolbarField,
-.dropdownToolbarButton {
-  color: #FFFFFF;
-  border-color: #FFFFFF;
-  background: none;
-}
-
 #sidebarContainer {
-  border-color: #707789;
+  border-top: 2px solid #707789;
 }
 
-.dropdownToolbarButton:hover,
-.dropdownToolbarButton:hover:active,
-.overlayButton:hover,
-.overlayButton:focus,
-.overlayButton:hover:active,
-.toolbarButton.toggled,
-.toolbarButton:hover:enabled,
-.toolbarButton:focus:enabled,
-.toolbarButton:hover:active,
-.splitToolbarButton.toggled > .toolbarButton.toggled,
-.splitToolbarButton > .toolbarButton:hover:enabled,
-.splitToolbarButton > .toolbarButton:focus:enabled,
-.secondaryToolbarButton:hover,
-.secondaryToolbarButton:focus,
-.secondaryToolbarButton:hover:active,
-.secondaryToolbarButton.toggled,
-.toolbarField:hover,
+#sidebarContent {
+  background-color: #8990A2;
+}
+
+.dropdownToolbarButton {
+  border: 1px solid;
+}
+
 .toolbarField:focus {
-  background-color: #707789;
-  border-color: #707789;
-  background-image: none;
-  box-shadow: none;
+  border-color: #FFFFFF;
 }
 
-.splitToolbarButton:hover .toolbarButton {
-  border-color: transparent;
+/* copy of rule @media (prefers-color-scheme: dark) with white icons and own colors */
+:root {
+  --main-color: #FFFFFF;
+  --body-bg-color: #E8EBF1;
+  --errorWrapper-bg-color: #F5333F;
+  --progressBar-color: #8990A2;
+  --progressBar-indeterminate-bg-color: #707789;
+  --progressBar-indeterminate-blend-color: #FFFFFF;
+  --scrollbar-color: #8990A2;
+  --scrollbar-bg-color: #8990A2;
+
+  --sidebar-bg-color: #8990A2;
+  --toolbar-bg-color: #8990A2;
+  --toolbar-border-color: #8990A2;
+  --button-hover-color: #707789;
+  --toggled-btn-bg-color: #707789;
+  --dropdown-btn-bg-color: #8990A2;
+  --separator-color: #8990A2;
+  --field-color: #FFFFFF;
+  --field-bg-color: #8990A2;
+  --field-border-color: #FFFFFF;
+  --findbar-nextprevious-btn-bg-color: #8990A2;
+  --outline-color: #FFFFFF;
+  --outline-hover-color: #707789;
+  --outline-active-color: #707789;
+  --outline-active-bg-color: #707789;
+  --sidebaritem-bg-color: #707789;
+  --doorhanger-bg-color: #8990A2;
+  --doorhanger-border-color: #8990A2;
+  --doorhanger-hover-color: #707789;
+  --doorhanger-separator-color: #8990A2;
+  --overlay-button-bg-color: #8990A2;
+  --overlay-button-hover-color: #707789;
+
+  --loading-icon: url(images/loading-dark.svg);
+  --treeitem-expanded-icon: url(images/treeitem-expanded-dark.svg);
+  --treeitem-collapsed-icon: url(images/treeitem-collapsed-dark.svg);
+  --toolbarButton-menuArrow-icon: url(images/toolbarButton-menuArrow-dark.svg);
+  --toolbarButton-sidebarToggle-icon: url(images/toolbarButton-sidebarToggle-dark.svg);
+  --toolbarButton-secondaryToolbarToggle-icon: url(images/toolbarButton-secondaryToolbarToggle-dark.svg);
+  --toolbarButton-pageUp-icon: url(images/toolbarButton-pageUp-dark.svg);
+  --toolbarButton-pageDown-icon: url(images/toolbarButton-pageDown-dark.svg);
+  --toolbarButton-zoomOut-icon: url(images/toolbarButton-zoomOut-dark.svg);
+  --toolbarButton-zoomIn-icon: url(images/toolbarButton-zoomIn-dark.svg);
+  --toolbarButton-presentationMode-icon: url(images/toolbarButton-presentationMode-dark.svg);
+  --toolbarButton-print-icon: url(images/toolbarButton-print-dark.svg);
+  --toolbarButton-openFile-icon: url(images/toolbarButton-openFile-dark.svg);
+  --toolbarButton-download-icon: url(images/toolbarButton-download-dark.svg);
+  --toolbarButton-bookmark-icon: url(images/toolbarButton-bookmark-dark.svg);
+  --toolbarButton-viewThumbnail-icon: url(images/toolbarButton-viewThumbnail-dark.svg);
+  --toolbarButton-viewOutline-icon: url(images/toolbarButton-viewOutline-dark.svg);
+  --toolbarButton-viewAttachments-icon: url(images/toolbarButton-viewAttachments-dark.svg);
+  --toolbarButton-viewLayers-icon: url(images/toolbarButton-viewLayers-dark.svg);
+  --toolbarButton-search-icon: url(images/toolbarButton-search-dark.svg);
+  --findbarButton-previous-icon: url(images/findbarButton-previous-dark.svg);
+  --findbarButton-next-icon: url(images/findbarButton-next-dark.svg);
+  --secondaryToolbarButton-firstPage-icon: url(images/secondaryToolbarButton-firstPage-dark.svg);
+  --secondaryToolbarButton-lastPage-icon: url(images/secondaryToolbarButton-lastPage-dark.svg);
+  --secondaryToolbarButton-rotateCcw-icon: url(images/secondaryToolbarButton-rotateCcw-dark.svg);
+  --secondaryToolbarButton-rotateCw-icon: url(images/secondaryToolbarButton-rotateCw-dark.svg);
+  --secondaryToolbarButton-selectTool-icon: url(images/secondaryToolbarButton-selectTool-dark.svg);
+  --secondaryToolbarButton-handTool-icon: url(images/secondaryToolbarButton-handTool-dark.svg);
+  --secondaryToolbarButton-scrollVertical-icon: url(images/secondaryToolbarButton-scrollVertical-dark.svg);
+  --secondaryToolbarButton-scrollHorizontal-icon: url(images/secondaryToolbarButton-scrollHorizontal-dark.svg);
+  --secondaryToolbarButton-scrollWrapped-icon: url(images/secondaryToolbarButton-scrollWrapped-dark.svg);
+  --secondaryToolbarButton-spreadNone-icon: url(images/secondaryToolbarButton-spreadNone-dark.svg);
+  --secondaryToolbarButton-spreadOdd-icon: url(images/secondaryToolbarButton-spreadOdd-dark.svg);
+  --secondaryToolbarButton-spreadEven-icon: url(images/secondaryToolbarButton-spreadEven-dark.svg);
+  --secondaryToolbarButton-documentProperties-icon: url(images/secondaryToolbarButton-documentProperties-dark.svg);
 }
