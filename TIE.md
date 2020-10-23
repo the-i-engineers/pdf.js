@@ -37,6 +37,23 @@
 * [IE-4298](https://jira.tie.ch/browse/IE-4298): in [app.js](./web/app.js)
   * replace `const viewerOrigin = new URL(window.location.href).origin || "null";` with `const viewerOrigin = "null";`
   * replace `PDFViewerApplication.open(file);` with `PDFViewerApplication.open(file, { withCredentials: true });`
+* [KIS-1640](https://jira.tie.ch/browse/KIS-1640): in [app.js](./web/app.js) initialize replace
+  ```
+  if (
+    this.isViewerEmbedded &&
+      AppOptions.get("externalLinkTarget") === LinkTarget.NONE
+    ) {
+      // Prevent external links from "replacing" the viewer,
+      // when it's embedded in e.g. an <iframe> or an <object>.
+      AppOptions.set("externalLinkTarget", LinkTarget.TOP);
+    }
+  )
+  ```
+  with 
+  ```
+  AppOptions.set("externalLinkTarget", LinkTarget.BLANK);
+  ```
+  External links must always open in new tab (also in webview where isEmbedded is false). It isn't enough to just set the default option.
 * [KIS-1280](https://jira.tie.ch/browse/KIS-1280): in [canvas.js](./src/display/canvas.js) `after this.ctx.globalCompositeOperation = value;` add 
   ```
   if (this.ctx.globalCompositeOperation !== value) {

@@ -1939,8 +1939,8 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
   --progressBar-color: #8990A2;
   --progressBar-indeterminate-bg-color: #707789;
   --progressBar-indeterminate-blend-color: #FFFFFF;
-  --scrollbar-color: #8990A2;
-  --scrollbar-bg-color: #8990A2;
+  --scrollbar-color: auto;
+  --scrollbar-bg-color: auto;
 
   --sidebar-bg-color: #8990A2;
   --toolbar-bg-color: #8990A2;
@@ -1954,8 +1954,8 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
   --field-border-color: #FFFFFF;
   --findbar-nextprevious-btn-bg-color: #8990A2;
   --outline-color: #FFFFFF;
-  --outline-hover-color: #707789;
-  --outline-active-color: #707789;
+  --outline-hover-color: #FFFFFF;
+  --outline-active-color: #FFFFFF;
   --outline-active-bg-color: #707789;
   --sidebaritem-bg-color: #707789;
   --doorhanger-bg-color: #8990A2;
