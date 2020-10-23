@@ -268,15 +268,7 @@ const PDFViewerApplication = {
     await this._parseHashParameters();
     this._forceCssTheme();
     await this._initializeL10n();
-
-    if (
-      this.isViewerEmbedded &&
-      AppOptions.get("externalLinkTarget") === LinkTarget.NONE
-    ) {
-      // Prevent external links from "replacing" the viewer,
-      // when it's embedded in e.g. an <iframe> or an <object>.
-      AppOptions.set("externalLinkTarget", LinkTarget.TOP);
-    }
+    AppOptions.set("externalLinkTarget", LinkTarget.BLANK);
     await this._initializeViewerComponents();
 
     // Bind the various event handlers *after* the viewer has been
