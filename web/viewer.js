@@ -13,7 +13,18 @@
  * limitations under the License.
  */
 
-"use strict";
+import { AppOptions } from "./app_options.js";
+import { PDFViewerApplication } from "./app.js";
+
+/* eslint-disable-next-line no-unused-vars */
+const pdfjsVersion =
+  typeof PDFJSDev !== "undefined" ? PDFJSDev.eval("BUNDLE_VERSION") : void 0;
+/* eslint-disable-next-line no-unused-vars */
+const pdfjsBuild =
+  typeof PDFJSDev !== "undefined" ? PDFJSDev.eval("BUNDLE_BUILD") : void 0;
+
+window.PDFViewerApplication = PDFViewerApplication;
+window.PDFViewerApplicationOptions = AppOptions;
 
 if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("CHROME")) {
   var defaultUrl; // eslint-disable-line no-var
@@ -35,12 +46,6 @@ if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("CHROME")) {
   })();
 }
 
-let pdfjsWebApp, pdfjsWebAppOptions;
-if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("PRODUCTION")) {
-  pdfjsWebApp = require("./app.js");
-  pdfjsWebAppOptions = require("./app_options.js");
-}
-
 if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("MOZCENTRAL")) {
   require("./firefoxcom.js");
   require("./firefox_print_service.js");
@@ -56,6 +61,18 @@ if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("CHROME || GENERIC")) {
 }
 
 function getViewerConfiguration() {
+  let errorWrapper = null;
+  if (typeof PDFJSDev === "undefined" || !PDFJSDev.test("MOZCENTRAL")) {
+    errorWrapper = {
+      container: document.getElementById("errorWrapper"),
+      errorMessage: document.getElementById("errorMessage"),
+      closeButton: document.getElementById("errorClose"),
+      errorMoreInfo: document.getElementById("errorMoreInfo"),
+      moreInfoButton: document.getElementById("errorShowMore"),
+      lessInfoButton: document.getElementById("errorShowLess"),
+    };
+  }
+
   return {
     appContainer: document.body,
     mainContainer: document.getElementById("viewerContainer"),
@@ -65,7 +82,6 @@ function getViewerConfiguration() {
       container: document.getElementById("toolbarViewer"),
       numPages: document.getElementById("numPages"),
       pageNumber: document.getElementById("pageNumber"),
-      scaleSelectContainer: document.getElementById("scaleSelectContainer"),
       scaleSelect: document.getElementById("scaleSelect"),
       customScaleOption: document.getElementById("customScaleOption"),
       previous: document.getElementById("previous"),
@@ -98,6 +114,7 @@ function getViewerConfiguration() {
       pageRotateCcwButton: document.getElementById("pageRotateCcw"),
       cursorSelectToolButton: document.getElementById("cursorSelectTool"),
       cursorHandToolButton: document.getElementById("cursorHandTool"),
+      scrollPageButton: document.getElementById("scrollPage"),
       scrollVerticalButton: document.getElementById("scrollVertical"),
       scrollHorizontalButton: document.getElementById("scrollHorizontal"),
       scrollWrappedButton: document.getElementById("scrollWrapped"),
@@ -105,12 +122,6 @@ function getViewerConfiguration() {
       spreadOddButton: document.getElementById("spreadOdd"),
       spreadEvenButton: document.getElementById("spreadEven"),
       documentPropertiesButton: document.getElementById("documentProperties"),
-    },
-    fullscreen: {
-      contextFirstPage: document.getElementById("contextFirstPage"),
-      contextLastPage: document.getElementById("contextLastPage"),
-      contextPageRotateCw: document.getElementById("contextPageRotateCw"),
-      contextPageRotateCcw: document.getElementById("contextPageRotateCcw"),
     },
     sidebar: {
       // Divs (and sidebar button)
@@ -127,6 +138,11 @@ function getViewerConfiguration() {
       outlineView: document.getElementById("outlineView"),
       attachmentsView: document.getElementById("attachmentsView"),
       layersView: document.getElementById("layersView"),
+      // View-specific options
+      outlineOptionsContainer: document.getElementById(
+        "outlineOptionsContainer"
+      ),
+      currentOutlineItemButton: document.getElementById("currentOutlineItem"),
     },
     sidebarResizer: {
       outerContainer: document.getElementById("outerContainer"),
@@ -173,14 +189,7 @@ function getViewerConfiguration() {
         linearized: document.getElementById("linearizedField"),
       },
     },
-    errorWrapper: {
-      container: document.getElementById("errorWrapper"),
-      errorMessage: document.getElementById("errorMessage"),
-      closeButton: document.getElementById("errorClose"),
-      errorMoreInfo: document.getElementById("errorMoreInfo"),
-      moreInfoButton: document.getElementById("errorShowMore"),
-      lessInfoButton: document.getElementById("errorShowLess"),
-    },
+    errorWrapper,
     printContainer: document.getElementById("printContainer"),
     openFileInputName: "fileInput",
     debuggerScriptPath: "./debugger.js",
@@ -191,22 +200,15 @@ function webViewerLoad() {
   const config = getViewerConfiguration();
   if (typeof PDFJSDev === "undefined" || !PDFJSDev.test("PRODUCTION")) {
     Promise.all([
-      import("pdfjs-web/app.js"),
-      import("pdfjs-web/app_options.js"),
       import("pdfjs-web/genericcom.js"),
       import("pdfjs-web/pdf_print_service.js"),
-    ]).then(function ([app, appOptions, genericCom, pdfPrintService]) {
-      window.PDFViewerApplication = app.PDFViewerApplication;
-      window.PDFViewerApplicationOptions = appOptions.AppOptions;
-      app.PDFViewerApplication.run(config);
+    ]).then(function ([genericCom, pdfPrintService]) {
+      PDFViewerApplication.run(config);
     });
   } else {
     if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("CHROME")) {
-      pdfjsWebAppOptions.AppOptions.set("defaultUrl", defaultUrl);
+      AppOptions.set("defaultUrl", defaultUrl);
     }
-
-    window.PDFViewerApplication = pdfjsWebApp.PDFViewerApplication;
-    window.PDFViewerApplicationOptions = pdfjsWebAppOptions.AppOptions;
 
     if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("GENERIC")) {
       // Give custom implementations of the default viewer a simpler way to
@@ -229,8 +231,14 @@ function webViewerLoad() {
       }
     }
 
-    pdfjsWebApp.PDFViewerApplication.run(config);
+    PDFViewerApplication.run(config);
   }
+}
+
+// Block the "load" event until all pages are loaded, to ensure that printing
+// works in Firefox; see https://bugzilla.mozilla.org/show_bug.cgi?id=1618553
+if (document.blockUnblockOnload) {
+  document.blockUnblockOnload(true);
 }
 
 if (
@@ -241,3 +249,5 @@ if (
 } else {
   document.addEventListener("DOMContentLoaded", webViewerLoad, true);
 }
+
+export { PDFViewerApplication, AppOptions as PDFViewerApplicationOptions };
