@@ -275,15 +275,7 @@ const PDFViewerApplication = {
     await this._parseHashParameters();
     this._forceCssTheme();
     await this._initializeL10n();
-
-    if (
-      this.isViewerEmbedded &&
-      AppOptions.get("externalLinkTarget") === LinkTarget.NONE
-    ) {
-      // Prevent external links from "replacing" the viewer,
-      // when it's embedded in e.g. an <iframe> or an <object>.
-      AppOptions.set("externalLinkTarget", LinkTarget.TOP);
-    }
+    AppOptions.set("externalLinkTarget", LinkTarget.BLANK);
     await this._initializeViewerComponents();
 
     // Bind the various event handlers *after* the viewer has been
@@ -1563,11 +1555,6 @@ const PDFViewerApplication = {
     this._contentLength ??= contentLength; // See `getDownloadInfo`-call above.
 
     // Provides some basic debug information
-    console.log(
-      `PDF ${pdfDocument.fingerprints[0]} [${info.PDFFormatVersion} ` +
-        `${(info.Producer || "-").trim()} / ${(info.Creator || "-").trim()}] ` +
-        `(PDF.js: ${version || "-"})`
-    );
     let pdfTitle = info.Title;
 
     const metadataTitle = metadata?.get("dc:title");
@@ -2223,7 +2210,7 @@ if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
       return;
     }
     try {
-      const viewerOrigin = new URL(window.location.href).origin || "null";
+      const viewerOrigin = "null";
       if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
         // Hosted or local viewer, allow for any file locations
         return;
@@ -2358,7 +2345,7 @@ function webViewerInitialized() {
   try {
     if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
       if (file) {
-        PDFViewerApplication.open(file);
+        PDFViewerApplication.open(file, { withCredentials: true });
       } else {
         PDFViewerApplication._hideViewBookmark();
       }

@@ -1519,3 +1519,83 @@ dialog :link {
     display: none;
   }
 }
+
+/* TIE Styles */
+.toolbarButton.presentationMode,
+.secondaryToolbarButton.presentationMode,
+.toolbarButton.openFile,
+.secondaryToolbarButton.openFile,
+.toolbarButton.download,
+.secondaryToolbarButton.download,
+.toolbarButton.bookmark,
+.secondaryToolbarButton.bookmark,
+.splitToolbarButtonSeparator,
+.splitToolbarButton:hover > .splitToolbarButtonSeparator,
+.splitToolbarButton.toggled > .splitToolbarButtonSeparator,
+.verticalToolbarSeparator {
+  display: none !important;
+}
+
+.pdfViewer .page {
+  border: none;
+  box-shadow: 0 25.6px 57.6px rgba(49, 50, 62, 0.22), 0 4.8px 14.4px rgba(49, 50, 62, 0.18);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#sidebarContainer {
+  border-top: 2px solid #707789;
+}
+
+#sidebarContent {
+  background-color: #8990A2;
+}
+
+.dropdownToolbarButton {
+  border: 1px solid;
+}
+
+.toolbarField:focus {
+  border-color: #FFFFFF;
+}
+
+/* copy of rule @media (prefers-color-scheme: dark) with white icons and own colors */
+:root {
+  --main-color: #FFFFFF;
+  --body-bg-color: #E8EBF1;
+  --errorWrapper-bg-color: #F5333F;
+  --progressBar-color: #8990A2;
+  --progressBar-indeterminate-bg-color: #707789;
+  --progressBar-indeterminate-blend-color: #FFFFFF;
+  --scrollbar-color: auto;
+  --scrollbar-bg-color: auto;
+  --toolbar-icon-bg-color: #FFFFFF;
+  --toolbar-icon-hover-bg-color: #FFFFFF;
+  --sidebar-narrow-bg-color: #8990A2;
+  --sidebar-toolbar-bg-color: #8990A2;
+  --toolbar-bg-color: #8990A2;
+  --toolbar-border-color: #8990A2;
+  --button-hover-color: #707789;
+  --toggled-btn-color: #FFFFFF;
+  --toggled-btn-bg-color: #707789;
+  --toggled-hover-active-btn-color: #FFFFFF;
+  --dropdown-btn-bg-color: #8990A2;
+  --separator-color: #8990A2;
+  --field-color: #FFFFFF;
+  --field-bg-color: #8990A2;
+  --field-border-color: #FFFFFF;
+  --treeitem-color: #FFFFFF;
+  --treeitem-hover-color: #FFFFFF;
+  --treeitem-selected-color: #FFFFFF;
+  --treeitem-selected-bg-color: #707789;
+  --sidebaritem-bg-color: #707789;
+  --doorhanger-bg-color: #8990A2;
+  --doorhanger-border-color: #8990A2;
+  --doorhanger-hover-color: #FFFFFF;
+  --doorhanger-hover-bg-color: #707789;
+  --doorhanger-separator-color: #8990A2;
+  --dialog-button-bg-color: #8990A2;
+  --dialog-button-hover-bg-color: #707789;
+
+  --loading-icon: url(images/loading-dark.svg);
+}
