@@ -31,7 +31,6 @@
   * [app.js](./web/app.js) search for `// Provides some basic debug information` and delete log
   * [ui_utils.js](./web/ui_utils.js) scrollIntoView
   * [l10n.js](./external/webL10n/l10n.js) search for `console.warn('#' +` and delete two log occurrences in getL10nData
-* [KIS-1110](https://jira.tie.ch/browse/KIS-1110): set printResolution in defaultOptions of [app_options.js](./web/app_options.js) to 600
 * [IE-4298](https://jira.tie.ch/browse/IE-4298): in [app.js](./web/app.js)
   * replace `const viewerOrigin = new URL(window.location.href).origin || "null";` with `const viewerOrigin = "null";`
   * replace `PDFViewerApplication.open(file);` with `PDFViewerApplication.open(file, { withCredentials: true });`
