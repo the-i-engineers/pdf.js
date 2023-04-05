@@ -1,6 +1,6 @@
 {
   "name": "tie-pdf.js",
-  "version": "v2.16.105+tie.2",
+  "version": "v2.16.105-tie.3",
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/plugin-transform-modules-commonjs": "^7.18.6",
